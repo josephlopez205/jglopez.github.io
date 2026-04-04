@@ -139,7 +139,7 @@
       padding: 8rem 3rem 5rem;
       gap: 4rem;
       position: relative;
-      overflow: hidden;
+      overflow: visible;
     }
 
     #hero::before {
@@ -1111,8 +1111,7 @@
         <h3>Breast Tissue Impedance Classifier</h3>
         <p>
           An interactive Shiny dashboard that classifies breast tissue types from electrical
-          impedance measurements. Five supervised classifiers — including Random Forest and SVM —
-          are trained, compared, and deployed, with live single-sample prediction and interpretability
+          impedance measurements. Five supervised classifiers are trained, compared, and deployed, with live single-sample prediction and interpretability
           tools built in.
         </p>
         <div class="project-footer">
@@ -1438,8 +1437,11 @@
         n.x += n.vx;
         n.y += n.vy;
         n.pulse += n.pulseSpeed;
-        if (n.x < 0 || n.x > w) n.vx *= -1;
-        if (n.y < 0 || n.y > h) n.vy *= -1;
+        const pad = n.r + 2;
+        if (n.x < pad) { n.x = pad; n.vx = Math.abs(n.vx); }
+        if (n.x > w - pad) { n.x = w - pad; n.vx = -Math.abs(n.vx); }
+        if (n.y < pad) { n.y = pad; n.vy = Math.abs(n.vy); }
+        if (n.y > h - pad) { n.y = h - pad; n.vy = -Math.abs(n.vy); }
         if (n.lit && now - n.litTime > LIT_DURATION) n.lit = false;
 
         const dx = n.x - mouse.x, dy = n.y - mouse.y;
